@@ -1,10 +1,10 @@
 angular.module('app.controllers', [])
   
-.controller('contactMeCtrl', ['$scope', '$stateParams', '$http',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('contactMeCtrl', ['$scope', '$stateParams', '$http','$cordovaToast',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 							  
-function ($scope, $stateParams, $http) {
+function ($scope, $stateParams, $http, $cordovaToast) {
 	$scope.formdata= {};
 	$scope.wrong = false;
 	$scope.formdata.name="" ;
@@ -46,6 +46,12 @@ $scope.register=function(){
         $http.post("http://moshfitness.london/app/moshapp1.php", {name : $scope.formdata.name, email:$scope.formdata.email, phone:$scope.formdata.phone, goal:$scope.formdata.goal }).success(function (response) {  
             $scope.value = response;  
 			console.log(response);
+			 $cordovaToast.show(response, 'long', 'center').success(function() {
+            console.log("The toast was shown");
+				 $window.location.reload(true);
+        }, function (error) {
+            console.log("The toast was not shown due to " + error);
+        });
          })  
            .error(function (error) {  
               alert(error);  
